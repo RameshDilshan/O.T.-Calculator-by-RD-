@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OT Calculator by RD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b1118;
+            --card-bg: #111926;
+            --input-bg: #0d141f;
+            --accent-green: #22c55e;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --border-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        h1 { font-size: 1.8rem; margin: 0 0 5px 0; font-weight: 800; text-align: center; }
+        .subtitle { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.5rem; text-align: center; }
+
+        /* Consistent Gap Control */
+        .input-group { margin-bottom: 1.2rem; }
+        
+        label { display: block; margin-bottom: 8px; font-size: 0.8rem; font-weight: 600; }
+        .label-green { color: var(--accent-green); }
+        .label-purple { color: var(--accent-purple); }
+
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .aed-symbol {
+            position: absolute; left: 12px; color: var(--accent-green); font-weight: 800;
+            font-size: 0.75rem; pointer-events: none; background: rgba(34, 197, 94, 0.1);
+            padding: 3px 6px; border-radius: 4px;
+        }
+
+        input {
+            width: 100%; background: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 14px; color: white; font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent-green); background: #111b27; }
+        .basic-input { text-align: center; font-size: 1.3rem; font-weight: 600; padding-left: 55px; }
+
+        .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 1.2rem; }
+        .row-inputs input { padding-left: 45px; }
+        .input-wrapper i { position: absolute; left: 15px; }
+
+        /* Save Button - Now matches spacing gaps */
+        .save-btn {
+            width: 100%;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.3s;
+            margin-bottom: 1.5rem; /* Gap before results */
+        }
+        .save-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .save-btn:active { transform: translateY(0); }
+
+        .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .res-card { padding: 12px; border-radius: 16px; border: 1px solid var(--border-color); }
+        .res-card.green { background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2); }
+        .res-card.purple { background: rgba(168, 85, 247, 0.05); border-color: rgba(168, 85, 247, 0.2); }
+        .res-label { font-size: 0.7rem; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
+        .res-value { font-size: 1rem; font-weight: 800; }
+
+        .summary-box { margin-bottom: 12px; padding: 18px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .ot-box { background: rgba(34, 197, 94, 0.08); }
+        .salary-box { background: rgba(59, 130, 246, 0.08); }
+        .summary-title { font-size: 0.85rem; margin-bottom: 5px; font-weight: 600; }
+        .summary-amount { font-size: 1.8rem; font-weight: 900; display: flex; align-items: baseline; gap: 6px; }
+        
+        .reset-btn {
+            background: none; border: none; color: var(--text-dim); cursor: pointer;
+            width: 100%; margin-top: 15px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>OT Calculator by RD</h1>
+        <p class="subtitle">Monthly OT Tracker</p>
+
+        <div class="input-group">
+            <label style="color: var(--text-dim)">Monthly Basic Salary</label>
+            <div class="input-wrapper">
+                <span class="aed-symbol">AED</span>
+                <input type="number" id="basicSalary" class="basic-input" placeholder="0.00">
+            </div>
+        </div>
+
+        <div class="row-inputs">
+            <div class="input-group" style="margin-bottom: 0;">
+                <label id="lbl125" class="label-green">x1.25 Hours</label>
+                <div class="input-wrapper">
+                    <i class="far fa-clock" style="color: var(--accent-green);"></i>
+                    <input type="number" id="h125" placeholder="0">
+                </div>
+            </div>
+            <div class="input-group" style="margin-bottom: 0;">
+                <label id="lbl150" class="label-purple">x1.5 Hours</label>
+                <div class="input-wrapper">
+                    <i class="far fa-clock" style="color: var(--accent-purple);"></i>
+                    <input type="number" id="h150" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <button class="save-btn" id="saveBtn">
+            <i class="fas fa-plus-circle"></i> Save & Accumulate
+        </button>
+
+        <div class="result-grid">
+            <div class="res-card green">
+                <div class="res-label" style="color: var(--accent-green)">x1.25 OT Pay</div>
+                <div class="res-value">AED <span id="out-ot125">0.00</span></div>
+            </div>
+            <div class="res-card purple">
+                <div class="res-label" style="color: var(--accent-purple)">x1.5 OT Pay</div>
+                <div class="res-value">AED <span id="out-ot150">0.00</span></div>
+            </div>
+        </div>
+
+        <div class="summary-box ot-box">
+            <div class="summary-title" style="color: var(--accent-green)">Total OT Amount</div>
+            <div class="summary-amount" style="color: var(--accent-green)"><span>AED</span> <span id="out-total-ot">0.00</span></div>
+        </div>
+
+        <div class="summary-box salary-box">
+            <div class="summary-title" style="color: var(--accent-blue)">Grand Total Salary</div>
+            <div class="summary-amount" style="color: var(--accent-blue)"><span>AED</span> <span id="out-grand-total">0.00</span></div>
+        </div>
+
+        <button class="reset-btn" id="resetBtn">
+            <i class="fas fa-history"></i> Reset for New Month
+        </button>
+    </div>
+
+    <script>
+        let state = {
+            basic: parseFloat(localStorage.getItem('rd_basic')) || 0,
+            stored125: parseFloat(localStorage.getItem('rd_125')) || 0,
+            stored150: parseFloat(localStorage.getItem('rd_150')) || 0
+        };
+
+        const basicInput = document.getElementById('basicSalary');
+        const h125Input = document.getElementById('h125');
+        const h150Input = document.getElementById('h150');
+
+        if(state.basic > 0) basicInput.value = state.basic;
+
+        function calculate() {
+            const currentBasic = parseFloat(basicInput.value) || 0;
+            const typed125 = parseFloat(h125Input.value) || 0;
+            const typed150 = parseFloat(h150Input.value) || 0;
+
+            const hourlyRate = (currentBasic / 30) / 8;
+            const total125 = state.stored125 + typed125;
+            const total150 = state.stored150 + typed150;
+
+            const pay125 = hourlyRate * 1.25 * total125;
+            const pay150 = hourlyRate * 1.5 * total150;
+            const totalOT = pay125 + pay150;
+
+            const format = (num) => num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            document.getElementById('lbl125').innerText = `x1.25 (${state.stored125.toFixed(1)}h saved)`;
+            document.getElementById('lbl150').innerText = `x1.5 (${state.stored150.toFixed(1)}h saved)`;
+            
+            document.getElementById('out-ot125').innerText = format(pay125);
+            document.getElementById('out-ot150').innerText = format(pay150);
+            document.getElementById('out-total-ot').innerText = format(totalOT);
+            document.getElementById('out-grand-total').innerText = format(currentBasic + totalOT);
+        }
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            state.basic = parseFloat(basicInput.value) || 0;
+            state.stored125 += (parseFloat(h125Input.value) || 0);
+            state.stored150 += (parseFloat(h150Input.value) || 0);
+
+            localStorage.setItem('rd_basic', state.basic);
+            localStorage.setItem('rd_125', state.stored125);
+            localStorage.setItem('rd_150', state.stored150);
+
+            h125Input.value = '';
+            h150Input.value = '';
+            calculate();
+            alert("Data saved!");
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if(confirm("Reset all data?")) {
+                localStorage.clear();
+                state = { basic: 0, stored125: 0, stored150: 0 };
+                basicInput.value = '';
+                h125Input.value = '';
+                h150Input.value = '';
+                calculate();
+            }
+        });
+
+        [basicInput, h125Input, h150Input].forEach(el => el.addEventListener('input', calculate));
+        calculate();
+    </script>
+</body>
+</html>
