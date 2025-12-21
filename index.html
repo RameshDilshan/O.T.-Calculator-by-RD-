@@ -143,7 +143,7 @@
         <p class="subtitle">Monthly OT Tracker</p>
 
         <div class="input-group">
-            <label style="color: var(--text-dim)">Monthly Basic Salary</label>
+            <label style="color: var(--text-dim)">Enter Monthly Basic Salary</label>
             <div class="input-wrapper">
                 <span class="aed-symbol">AED</span>
                 <input type="number" id="basicSalary" class="basic-input" placeholder="0.00">
@@ -245,8 +245,8 @@
 
             const format = (num) => num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-            document.getElementById('lbl125').innerText = `x1.25 (${state.stored125.toFixed(1)}h saved)`;
-            document.getElementById('lbl150').innerText = `x1.5 (${state.stored150.toFixed(1)}h saved)`;
+            document.getElementById('lbl125').innerText = `x1.25H (${state.stored125.toFixed(1)}h saved)`;
+            document.getElementById('lbl150').innerText = `x1.5H (${state.stored150.toFixed(1)}h saved)`;
             
             document.getElementById('out-ot125').innerText = format(pay125);
             document.getElementById('out-ot150').innerText = format(pay150);
