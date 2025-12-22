@@ -146,8 +146,8 @@
             const totalOT = p125 + p150;
             const fmt = n => n.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-            $('lbl125').innerText = `x1.25 hrs (${state.stored125.toFixed(1)}h saved)`;
-            $('lbl150').innerText = `x1.5 hrs (${state.stored150.toFixed(1)}h saved)`;
+            $('lbl125').innerText = `x1.25h (${state.stored125.toFixed(1)}h saved)`;
+            $('lbl150').innerText = `x1.5h (${state.stored150.toFixed(1)}h saved)`;
             $('out-ot125').innerText = fmt(p125); $('out-ot150').innerText = fmt(p150);
             $('out-total-ot').innerText = fmt(totalOT); $('out-grand-total').innerText = fmt(basic + totalOT);
             updateLogUI();
